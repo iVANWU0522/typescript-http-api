@@ -12,7 +12,7 @@ functions:
     handler: api/users.get
     events:
       - httpApi:
-          path: users
+          path: /users
           method: get
 
 plugins:
