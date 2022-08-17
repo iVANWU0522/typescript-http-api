@@ -1,6 +1,6 @@
 import { Handler } from 'aws-lambda';
 
-export const get: Handler = (event: any) => {
+export const list: Handler = (event: any) => {
   const response = {
     statusCode: 200,
     body: JSON.stringify(

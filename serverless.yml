@@ -10,8 +10,8 @@ provider:
   region: ap-southeast-2
 
 functions:
-  hello:
-    handler: api/users.get
+  listUsers:
+    handler: users/list.list
     events:
       - httpApi:
           path: /users
@@ -19,3 +19,52 @@ functions:
 
 plugins:
   - serverless-plugin-typescript
+
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: users
+        AttributeDefinitions:
+          - 
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - 
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    messagesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: messages
+        AttributeDefinitions:
+          - 
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - 
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    messageBoardsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: messageBoards
+        AttributeDefinitions:
+          - 
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - 
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    
