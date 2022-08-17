@@ -1,0 +1,19 @@
+org: ivanwu7887
+app: typescript-http-api
+service: typescript-http-api
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+
+functions:
+  hello:
+    handler: api/users.get
+    events:
+      - httpApi:
+          path: users
+          method: get
+
+plugins:
+  - serverless-plugin-typescript
