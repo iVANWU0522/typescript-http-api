@@ -8,10 +8,24 @@ provider:
   runtime: nodejs14.x
   stage: dev
   region: ap-southeast-2
+  httpApi:
+    cors: true
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${aws:region}:*:table/*"
 
 functions:
-  listUsers:
-    handler: users/list.list
+  getUser:
+    handler: users/get.get
     events:
       - httpApi:
           path: /users
@@ -30,10 +44,16 @@ resources:
           - 
             AttributeName: id
             AttributeType: S
+          - 
+            AttributeName: email
+            AttributeType: S
         KeySchema:
           - 
             AttributeName: id
             KeyType: HASH
+          - 
+            AttributeName: email
+            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
@@ -45,10 +65,16 @@ resources:
           - 
             AttributeName: id
             AttributeType: S
+          - 
+            AttributeName: messageBoardId
+            AttributeType: S
         KeySchema:
           - 
             AttributeName: id
             KeyType: HASH
+          - 
+            AttributeName: messageBoardId
+            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
