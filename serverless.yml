@@ -26,6 +26,10 @@ provider:
           Action:
             - sns:*
           Resource: "arn:aws:sns:${aws:region}:*:*"
+        - Effect: Allow
+          Action:
+            - sqs:*
+          Resource: "arn:aws:sqs:${aws:region}:*:*"
 
 functions:
   getUser:
@@ -48,6 +52,25 @@ functions:
       - sns:
           arn: !Ref UserTopic
           topicName: UserTopic
+  listMessageBoard:
+    handler: messageBoards/list.list
+    events:
+      - httpApi:
+          path: /messageBoards
+          method: get
+  registerMessageBoard:
+    handler: messageBoards/register.register
+    events:
+      - httpApi:
+          path: /messageBoards
+          method: post
+    environment:
+      MESSAGE_BOARD_SQS_URL: !Ref MessageBoardQueue
+  createMessageBoard:
+    handler: messageBoards/create.create
+    events:
+      - sqs:
+          arn: !GetAtt MessageBoardQueue.Arn
 
 plugins:
   - serverless-plugin-typescript
@@ -116,3 +139,8 @@ resources:
       Properties:
         TopicName: UserTopic
         DisplayName: UserTopic
+    MessageBoardQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: MessageBoardQueue
+        VisibilityTimeout: 300

@@ -57,3 +57,13 @@ curl -X POST https://07rp2g9eij.execute-api.ap-southeast-2.amazonaws.com/users -
 ```
 curl -X GET https://07rp2g9eij.execute-api.ap-southeast-2.amazonaws.com/users\?email\=test1@qq.com
 ```
+
+**List all messageBoard**
+
+```
+curl -X GET https://07rp2g9eij.execute-api.ap-southeast-2.amazonaws.com/messageBoards
+```
+
+**Create a new messageBoard**
+
+```

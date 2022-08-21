@@ -6,6 +6,7 @@ const dynamoDbClient = new DynamoDBClient({
 });
 
 export const get: Handler = async (event: any) => {
+  console.log("Received event: " + JSON.stringify(event));
   let email;
   if (event.queryStringParameters && event.queryStringParameters.email) {
     console.log("Received email: " + event.queryStringParameters.email);
