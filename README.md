@@ -67,3 +67,12 @@ curl -X GET https://07rp2g9eij.execute-api.ap-southeast-2.amazonaws.com/messageB
 **Create a new messageBoard**
 
 ```
+curl -X POST https://07rp2g9eij.execute-api.ap-southeast-2.amazonaws.com/messageBoards --data '{"name": "test1"}' -H 'Content-Type: application/json'
+```
+
+**Create a new message**
+
+```
+curl -X POST https://07rp2g9eij.execute-api.ap-southeast-2.amazonaws.com/messages --data '{"messageBoardId": "test1", "message":"message1"}' -H 'Content-Type: application/json'
+```
+

@@ -71,6 +71,20 @@ functions:
     events:
       - sqs:
           arn: !GetAtt MessageBoardQueue.Arn
+  registerMessage:
+    handler: messages/register.register
+    events:
+      - httpApi:
+          path: /messages
+          method: post
+    environment:
+      MESSAGE_SNS_ARN: !Ref MessageTopic
+  createMessage:
+    handler: messages/create.create
+    events:
+      - sns:
+          arn: !Ref MessageTopic
+          topicName: MessageTopic
 
 plugins:
   - serverless-plugin-typescript
@@ -144,3 +158,8 @@ resources:
       Properties:
         QueueName: MessageBoardQueue
         VisibilityTimeout: 300
+    MessageTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: MessageTopic
+        DisplayName: MessageTopic
