@@ -22,6 +22,10 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource: "arn:aws:dynamodb:${aws:region}:*:table/*"
+        - Effect: Allow
+          Action:
+            - sns:*
+          Resource: "arn:aws:sns:${aws:region}:*:*"
 
 functions:
   getUser:
@@ -30,6 +34,20 @@ functions:
       - httpApi:
           path: /users
           method: get
+  registerUser:
+    handler: users/register.register
+    events:
+      - httpApi:
+          path: /users
+          method: post
+    environment:
+      USER_SNS_ARN: !Ref UserTopic
+  createUser:
+    handler: users/create.create
+    events:
+      - sns:
+          arn: !Ref UserTopic
+          topicName: UserTopic
 
 plugins:
   - serverless-plugin-typescript
@@ -93,4 +111,8 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-    
+    UserTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: UserTopic
+        DisplayName: UserTopic

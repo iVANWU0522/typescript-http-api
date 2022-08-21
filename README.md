@@ -43,3 +43,17 @@ serverless invoke local --function hello
 ```
 curl https://xxxxxxxxx.execute-api.us-east-1.amazonaws.com/
 ```
+
+## Test
+
+**Register a new user**
+
+```
+curl -X POST https://07rp2g9eij.execute-api.ap-southeast-2.amazonaws.com/users --data '{"name": "test1", "email": "test1@qq.com"}' -H 'Content-Type: application/json'
+```
+
+**Get a user by email**
+
+```
+curl -X GET https://07rp2g9eij.execute-api.ap-southeast-2.amazonaws.com/users\?email\=test1@qq.com
+```
